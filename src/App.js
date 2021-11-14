@@ -36,6 +36,10 @@ const App = () => {
                 descriptionLine2={Title.descriptionLine2} />
         <div className="body-container">
             <p>This is the body container</p>
+            <img src="https://i.loli.net/2021/11/15/k7xObUzhgY2Vjty.gif"
+                 alt="subscribe"
+                 style={{height:200, width:200}}
+            />
         </div>
       </div>
   );
