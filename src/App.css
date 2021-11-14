@@ -2,12 +2,37 @@
   box-sizing: border-box;
 }
 
-.App-Title {
+.Banner {
   text-align: center;
-  background-color: #4E2A84;
   line-height: 30px;
-  font-weight: bold;
-  font-family: "Gill Sans";
-  color: white;
   padding-top: 5px;
+  font-family: "Gill Sans";
+}
+
+.App-Title {
+  font-weight: bold;
+  font-size: xx-large;
+  color: black;
+}
+
+.App-Subtitle {
+  font-weight: bold;
+  font-size: x-large;
+  color: dodgerblue;
+  line-height: 20px;
+}
+
+.App-Description {
+  color: black;
+  line-height: 15px;
+}
+
+.body-container {
+  width: 90%;
+  margin:0 auto;
+  border-radius: 10%;
+  text-align: center;
+  color: black;
+  background-color: floralwhite;
+  box-shadow: 0 5px 5px 0 rgba(160, 158, 158, 0.24), 0 10px 10px 0 rgba(182, 181, 181, 0.19);
 }
