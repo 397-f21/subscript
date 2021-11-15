@@ -13,7 +13,6 @@ const Title = {
 
 export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) => {
   return (<div className="Banner" data-cy="Banner">
-      <p></p>
       <img
           data-cy="logo"
           src="https://i.loli.net/2021/11/14/2crIksEnlbBHjxz.png"
@@ -26,7 +25,6 @@ export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) 
           <i>{descriptionLine1}</i>
           <i><p>{descriptionLine2}</p></i>
       </div>
-      <p> </p>
     </div>)
 };
 
@@ -39,8 +37,8 @@ const App = () => {
                 descriptionLine2={Title.descriptionLine2}
         />
         <div className="body-container">
-            <LeftCard />
-            <RightCard />
+            <LeftCard className="leftcard"/>
+            <RightCard className="rightcard"/>
         </div>
       </div>
   );
