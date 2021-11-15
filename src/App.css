@@ -4,12 +4,13 @@
 
 .Banner {
   text-align: center;
+  border-radius: 1rem;
   line-height: 30px;
   padding-top: 25px;
   padding-bottom: 200px;
   font-family: "Gill Sans";
   background-color: #DBF6F8;
-  background-image: linear-gradient(to bottom right, #E4F5F7, #beecf3);
+  background-image: linear-gradient(to bottom right, #E4F5F7, #b5ecf3);
 }
 
 .App-Title {
@@ -26,8 +27,9 @@
 }
 
 .App-Description {
-  color: black;
+  color: #9ba4b0;
   line-height: 15px;
+  font-size: medium;
 }
 
 .body-container {
@@ -44,4 +46,16 @@
   background: rgba(255, 255, 255, .7);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+}
+
+.bottom {
+  position: fixed;
+  border-radius: 1rem;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: black;
+  font-family: "Gill Sans";
+  background-color: #DBF6F8;
+  background-image: linear-gradient(to bottom right, #E4F5F7, #b5ecf3);
 }
