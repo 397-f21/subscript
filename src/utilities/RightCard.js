@@ -1,8 +1,8 @@
 import React from "react";
-import {signInWithGoogle} from "./utilities/firebase";
-import {signOut} from "./utilities/firebase";
-import {useUserState} from "./utilities/firebase";
-import "./RightCard.css"
+import {signInWithGoogle} from "./firebase";
+import {signOut} from "./firebase";
+import {useUserState} from "./firebase";
+import "./css/RightCard.css"
 
 const SignOutButton = () => (
     <button className="btn btn-secondary btn-sm"
@@ -18,13 +18,29 @@ const SignInButton = () => (
     </button>
 );
 
+const RightCardStatic = () => {
+    return (
+        <div>
+            <SignInButton />
+        </div>
+    )
+}
+
+const RightCardLogin = () => {
+    return (
+        <div>
+            <SignOutButton />
+        </div>
+    )
+}
+
 export const RightCard = () => {
     const [user] = useUserState();
 
     return (
         <div className="rightcard">
             <div>
-                { user ? <SignOutButton /> : <SignInButton /> }
+                { user ?  <RightCardLogin /> : <RightCardStatic /> }
             </div>
         </div>
     )

@@ -1,13 +1,22 @@
 import React from "react";
-import "./LeftCard.css"
+import {useUserState} from "./firebase";
+import "./css/LeftCard.css"
 
 const Descriptions = {
     description: "This is the description"
 }
 
-export const LeftCard = () => {
+const LeftCardLogin = () => {
     return (
-        <div className="leftcard">
+        <div>
+            <p>null</p>
+        </div>
+    )
+}
+
+const LeftCardStatic = () => {
+    return (
+        <div>
             <div className="descriptions">
                 <div>
                     {Descriptions.description}
@@ -52,6 +61,16 @@ export const LeftCard = () => {
                     <span className="column3">$4.99</span>
                 </div>
             </div>
+        </div>
+    )
+}
+
+export const LeftCard = () => {
+    const [user] = useUserState();
+
+    return (
+        <div className="leftcard">
+            {user ? <LeftCardLogin /> : <LeftCardStatic />}
         </div>
     )
 }

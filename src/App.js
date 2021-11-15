@@ -1,6 +1,6 @@
 import React from "react";
-import {LeftCard} from "./LeftCard";
-import {RightCard} from "./RightCard";
+import {LeftCard} from "./utilities/LeftCard";
+import {RightCard} from "./utilities/RightCard";
 import "./App.css";
 
 const Title = {
