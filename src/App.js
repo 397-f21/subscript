@@ -26,6 +26,7 @@ export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) 
           <i>{descriptionLine1}</i>
           <i><p>{descriptionLine2}</p></i>
       </div>
+      <p> </p>
     </div>)
 };
 
@@ -35,7 +36,8 @@ const App = () => {
         <Banner title={Title.title}
                 subtitle={Title.subtitle}
                 descriptionLine1={Title.descriptionLine1}
-                descriptionLine2={Title.descriptionLine2} />
+                descriptionLine2={Title.descriptionLine2}
+        />
         <div className="body-container">
             <LeftCard />
             <RightCard />
