@@ -1,4 +1,6 @@
 import React from "react";
+import {LeftCard} from "./LeftCard";
+import {RightCard} from "./RightCard";
 import "./App.css";
 
 const Title = {
@@ -35,11 +37,8 @@ const App = () => {
                 descriptionLine1={Title.descriptionLine1}
                 descriptionLine2={Title.descriptionLine2} />
         <div className="body-container">
-            <p>This is the body container</p>
-            <img src="https://i.loli.net/2021/11/15/k7xObUzhgY2Vjty.gif"
-                 alt="subscribe"
-                 style={{height:200, width:200}}
-            />
+            <LeftCard />
+            <RightCard />
         </div>
       </div>
   );

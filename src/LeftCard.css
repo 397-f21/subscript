@@ -1,0 +1,10 @@
+.leftcard {
+    width: 50%;
+    border-radius: 1%;
+    text-align: center;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.24), 0 5px 5px 0 rgba(0,0,0,0.19);;
+}
+
+.demoList.div {
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.24), 0 5px 5px 0 rgba(0,0,0,0.19);;
+}

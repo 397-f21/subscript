@@ -28,6 +28,7 @@
 }
 
 .body-container {
+  display: flex;
   width: 90%;
   margin:0 auto;
   border-radius: 1%;
