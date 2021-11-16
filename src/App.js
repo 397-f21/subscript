@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {LeftCard} from "./utilities/LeftCard";
 import {RightCard} from "./utilities/RightCard";
 import "./App.css";
@@ -38,6 +38,8 @@ const Bottom = () => {
 }
 
 const App = () => {
+    const [subscriptions, setSubscriptions] = useState([]);
+    
   return (
       <div className="container">
           <Banner title={Title.title}
@@ -46,7 +48,7 @@ const App = () => {
                   descriptionLine2={Title.descriptionLine2}
           />
           <div className="body-container">
-              <LeftCard className="leftcard"/>
+              <LeftCard className="leftcard" subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
               <RightCard className="rightcard"/>
           </div>
           <div className="bottom">
