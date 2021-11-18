@@ -15,7 +15,6 @@ import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import { Typography } from "@mui/material";
-// import { findAllByTestId } from "@testing-library/react";
 
 const Descriptions = {
   description: "Subscriptions",
@@ -29,23 +28,34 @@ const LeftCardLogin = () => {
   );
 };
 
-const SubscriptionBar = ({ name, price, date }) => {
+const SubscriptionBar = ({ name, price, date, index, deleteSubscription }) => {
+  const [isClicked, setIsClicked] = useState(false)
+  const clicked = () => {
+    setIsClicked(!isClicked)
+  }
   return (
     <ListItem disablePadding>
-      <ListItemButton>
+      <ListItemButton onClick={clicked}>
         <ListItemText primary={name} />
         <ListItemText primary={price} />
         <ListItemText primary={date.toDateString()} />
+        {isClicked && <Button onClick={() => deleteSubscription(index)}>Delete?</Button>}
       </ListItemButton>
     </ListItem>
   );
 };
 
-const SubscriptionList = ({ subscriptions }) => {
+const SubscriptionList = ({ subscriptions, setSubscriptions }) => {
+  const deleteSubscription = (index) => {
+    let subsCopy = subscriptions;
+    subsCopy.splice(index,1);
+    console.log(subsCopy);
+    setSubscriptions(subsCopy);
+  }
   return (
     <List>
-      {subscriptions.map((e) => (
-        <SubscriptionBar name={e.name} price={e.price} date={e.date} />
+      {subscriptions.map((e, index) => (
+        <SubscriptionBar name={e.name} price={e.price} date={e.date} index={index} deleteSubscription={deleteSubscription} />
       ))}
     </List>
   );
@@ -199,7 +209,7 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
     <div className="leftcard">
       {user ? <LeftCardLogin /> : <LeftCardStatic />}
       {subscriptions.length > 0 && (
-        <SubscriptionList subscriptions={subscriptions} />
+        <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
       )}
       <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
         Add Subscription
