@@ -42,7 +42,6 @@
   text-align: center;
   color: black;
   box-shadow: 0 5px 5px 0 rgba(160, 158, 158, 0.24), 0 10px 10px 0 rgba(182, 181, 181, 0.19);
-
   background: rgba(255, 255, 255, .7);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -57,5 +56,5 @@
   color: black;
   font-family: "Gill Sans";
   background-color: #DBF6F8;
-  background-image: linear-gradient(to bottom right, #E4F5F7, #b5ecf3);
+  background-image: linear-gradient(to bottom right, #E4F5F7, #c3eaf1);
 }

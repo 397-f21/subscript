@@ -36,11 +36,16 @@ const RightCardLogin = () => {
 
 export const RightCard = () => {
     const [user] = useUserState();
+    // { user ?  <RightCardLogin /> : <RightCardStatic /> }
 
     return (
         <div className="rightcard">
-            <div>
-                { user ?  <RightCardLogin /> : <RightCardStatic /> }
+            <div className="subscribeImg">
+              <img
+                src="https://i.loli.net/2021/11/15/k7xObUzhgY2Vjty.gif"
+                alt="subscribe"
+                style={{ height: 130, width: 130 }}
+              />
             </div>
         </div>
     )

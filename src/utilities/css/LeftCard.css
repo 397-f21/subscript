@@ -1,6 +1,7 @@
 .leftcard {
     width: 50%;
     text-align: center;
+    padding-left: 50px;
 }
 
 .demoList {
@@ -15,7 +16,6 @@
     border-radius: 1rem;
     margin-bottom: 10px;
     text-align: left;
-
     background: rgba(255, 255, 255, .7);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -27,11 +27,11 @@
     font-weight: bold;
     font-size: large;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 50px;
+    padding-top: 50px;
 }
 
 .subscribeImg {
-    border-radius: 10%;
+    border-radius: 1rem;
     padding-left: 100px;
 }
 

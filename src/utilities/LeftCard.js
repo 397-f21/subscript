@@ -4,7 +4,7 @@ import "./css/LeftCard.css";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
+// import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 //import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Button from "@mui/material/Button";
@@ -17,7 +17,7 @@ import DatePicker from "@mui/lab/DatePicker";
 import { Typography } from "@mui/material";
 
 const Descriptions = {
-  description: "This is the description",
+  description: "Subscriptions",
 };
 
 const LeftCardLogin = () => {
@@ -72,7 +72,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
     transform: "translate(-50%, -50%)",
     width: "50%",
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    borderRadius: 8,
     boxShadow: 24,
     p: 4,
     display: "flex",
@@ -82,6 +82,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
 
   const inputStyle = {
     margin: "0.5rem 0",
+    marginBottom: "15px",
   };
 
   const handleCloseModal = (name, price, date) => {
@@ -99,7 +100,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography>Enter Subscription Data</Typography>
+        <Typography sx={inputStyle}> Enter Subscription Data: </Typography>
         <TextField
           sx={inputStyle}
           id="outlined-basic"
@@ -115,7 +116,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
           inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           onChange={(newPrice) => setPrice(newPrice.target.value)}
         />
-        <LocalizationProvider sx={inputStyle} dateAdapter={DateAdapter}>
+        <LocalizationProvider sx={inputStyle} dateAdapter={DateAdapter} >
           <DatePicker
             sx={inputStyle}
             label="Due Date"
@@ -127,6 +128,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
           />
         </LocalizationProvider>
         <Button
+          style={{marginTop: "20px"}}
           variant="contained"
           onClick={() => handleCloseModal(name, price, date)}
         >
@@ -142,50 +144,43 @@ const LeftCardStatic = () => {
     <div>
       <div className="descriptions">
         <div>{Descriptions.description}</div>
-        <div className="subscribeImg">
-          <img
-            src="https://i.loli.net/2021/11/15/k7xObUzhgY2Vjty.gif"
-            alt="subscribe"
-            style={{ height: 130, width: 130 }}
-          />
-        </div>
       </div>
-
-      {/* <div className="demoList">
-                <div className="demoItem">
-                    <spanc className="column1">
-                        <img
-                            src="https://i.loli.net/2021/11/15/LZAwp2WV38J9zhu.png"
-                            alt="Netflix"
-                            style={{width:30, height:30}}/>
-                    </spanc>
-                    <span className="column2">Netfix</span>
-                    <span className="column3">$17.99</span>
-                </div>
-                <div className="demoItem">
-                    <span className="column1">
-                        <img
-                            src="https://i.loli.net/2021/11/15/d8Ls5IxvwW7POug.png"
-                            alt="Adobe"
-                            style={{width:30, height:30}}/>
-                    </span>
-                    <span className="column2">Adobe</span>
-                    <span className="column3">$19.99</span>
-                </div>
-                <div className="demoItem">
-                    <span className="column1">
-                        <img
-                            src="https://i.loli.net/2021/11/15/zfo6EG4AdhimQ3n.png"
-                            alt="Spotify"
-                            style={{width:30, height:30}}/>
-                    </span>
-                    <span className="column2">Spotify</span>
-                    <span className="column3">$4.99</span>
-                </div>
-            </div> */}
     </div>
   );
 };
+
+/* <div className="demoList">
+          <div className="demoItem">
+              <spanc className="column1">
+                  <img
+                      src="https://i.loli.net/2021/11/15/LZAwp2WV38J9zhu.png"
+                      alt="Netflix"
+                      style={{width:30, height:30}}/>
+              </spanc>
+              <span className="column2">Netfix</span>
+              <span className="column3">$17.99</span>
+          </div>
+          <div className="demoItem">
+              <span className="column1">
+                  <img
+                      src="https://i.loli.net/2021/11/15/d8Ls5IxvwW7POug.png"
+                      alt="Adobe"
+                      style={{width:30, height:30}}/>
+              </span>
+              <span className="column2">Adobe</span>
+              <span className="column3">$19.99</span>
+          </div>
+          <div className="demoItem">
+              <span className="column1">
+                  <img
+                      src="https://i.loli.net/2021/11/15/zfo6EG4AdhimQ3n.png"
+                      alt="Spotify"
+                      style={{width:30, height:30}}/>
+              </span>
+              <span className="column2">Spotify</span>
+              <span className="column3">$4.99</span>
+          </div>
+      </div> */
 
 export const LeftCard = ({ subscriptions, setSubscriptions }) => {
   const [user] = useUserState();
@@ -216,7 +211,7 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
       {subscriptions.length > 0 && (
         <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
       )}
-      <Button variant="contained" onClick={handleOpen}>
+      <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
         Add Subscription
       </Button>
       <FormModal
