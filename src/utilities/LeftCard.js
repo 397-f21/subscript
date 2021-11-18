@@ -62,7 +62,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
     transform: "translate(-50%, -50%)",
     width: "50%",
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    borderRadius: 8,
     boxShadow: 24,
     p: 4,
     display: "flex",
@@ -72,6 +72,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
 
   const inputStyle = {
     margin: "0.5rem 0",
+    marginBottom: "15px",
   };
 
   const handleCloseModal = (name, price, date) => {
@@ -89,7 +90,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography>Enter Subscription Data</Typography>
+        <Typography sx={inputStyle}> Enter Subscription Data: </Typography>
         <TextField
           sx={inputStyle}
           id="outlined-basic"
@@ -105,7 +106,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
           inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           onChange={(newPrice) => setPrice(newPrice.target.value)}
         />
-        <LocalizationProvider sx={inputStyle} dateAdapter={DateAdapter}>
+        <LocalizationProvider sx={inputStyle} dateAdapter={DateAdapter} >
           <DatePicker
             sx={inputStyle}
             label="Due Date"
@@ -117,6 +118,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
           />
         </LocalizationProvider>
         <Button
+          style={{marginTop: "20px"}}
           variant="contained"
           onClick={() => handleCloseModal(name, price, date)}
         >
