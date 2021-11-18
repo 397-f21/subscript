@@ -4,7 +4,7 @@ import "./css/LeftCard.css";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
+// import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 //import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Button from "@mui/material/Button";
@@ -15,7 +15,7 @@ import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import { Typography } from "@mui/material";
-import { findAllByTestId } from "@testing-library/react";
+// import { findAllByTestId } from "@testing-library/react";
 
 const Descriptions = {
   description: "This is the description",
