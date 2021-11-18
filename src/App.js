@@ -5,10 +5,9 @@ import "./App.css";
 
 const Title = {
     title: "subscript",
-    subtitle: "Manage your subscriptions today!",
-    descriptionLine1: "Never pay for an unwanted subscription again! " +
-      " subscript instantly finds and tracks your subscriptions." ,
-    descriptionLine2: "Your concierge is there when you need them to cancel services so you don’t have to."
+    subtitle: "manage your subscriptions today!",
+    descriptionLine1: "subscript will track your subscriptions so you don't have to!",
+    descriptionLine2: "keep track of which subscriptions you use & cancel the ones you don't"
 };
 
 export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) => {
@@ -32,14 +31,19 @@ export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) 
 const Bottom = () => {
     return (
         <div>
-            <p>This is the bottom banner for test.</p>
+          <img
+              data-cy="logo"
+              src="https://i.loli.net/2021/11/16/CA6pPW1X8zIeGVL.png"
+              alt="AppLogo"
+              style={{ width: 40, height: 40, padding: 10}}
+          />
         </div>
     )
 }
 
 const App = () => {
     const [subscriptions, setSubscriptions] = useState([]);
-    
+
   return (
       <div className="container">
           <Banner title={Title.title}
