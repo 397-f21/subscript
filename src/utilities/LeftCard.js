@@ -18,7 +18,7 @@ import { Typography } from "@mui/material";
 // import { findAllByTestId } from "@testing-library/react";
 
 const Descriptions = {
-  description: "This is the description",
+  description: "Subscriptions",
 };
 
 const LeftCardLogin = () => {
@@ -134,13 +134,6 @@ const LeftCardStatic = () => {
     <div>
       <div className="descriptions">
         <div>{Descriptions.description}</div>
-        <div className="subscribeImg">
-          <img
-            src="https://i.loli.net/2021/11/15/k7xObUzhgY2Vjty.gif"
-            alt="subscribe"
-            style={{ height: 130, width: 130 }}
-          />
-        </div>
       </div>
 
       {/* <div className="demoList">
@@ -208,7 +201,7 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
       {subscriptions.length > 0 && (
         <SubscriptionList subscriptions={subscriptions} />
       )}
-      <Button variant="contained" onClick={handleOpen}>
+      <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
         Add Subscription
       </Button>
       <FormModal
