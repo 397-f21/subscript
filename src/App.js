@@ -18,7 +18,7 @@ export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) 
               data-cy="logo"
               src="https://i.loli.net/2021/11/16/CA6pPW1X8zIeGVL.png"
               alt="AppLogo"
-              style={{ width: 60, height: 60}}
+              style={{ width: 40, height: 40}}
           />
           <div className="App-Title"> {title} </div>
           <div className="App-Subtitle"> <p>{subtitle}</p> </div>
@@ -26,7 +26,8 @@ export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) 
               <i>{descriptionLine1}</i>
               <i><p>{descriptionLine2}</p></i>
           </div>
-    </div>)
+    </div>
+    )
 };
 
 const Bottom = () => {

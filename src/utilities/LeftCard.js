@@ -3,7 +3,7 @@ import {useUserState} from "./firebase";
 import "./css/LeftCard.css"
 
 const Descriptions = {
-    description: "This is the description"
+    description: "Your Subscriptions"
 }
 
 const LeftCardLogin = () => {
