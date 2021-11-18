@@ -14,6 +14,8 @@ import TextField from "@mui/material/TextField";
 import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
+import { Typography } from "@mui/material";
+import { findAllByTestId } from "@testing-library/react";
 
 const Descriptions = {
   description: "This is the description",
@@ -49,24 +51,64 @@ const SubscriptionList = ({ subscriptions }) => {
   );
 };
 
-const FormModal = ({ open, handleClose }) => {
+const FormModal = ({ open, handleClose, closeModal }) => {
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('');
   const [date, setDate] = useState(undefined);
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "50%",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    display: "flex",
+    flexFlow: "column nowrap",
+    padding: "5rem",
+  };
+
+  const inputStyle = {
+    margin: "0.5rem 0",
+  };
+
+  const handleCloseModal = (name, price, date) => {
+    handleClose(name, price, date);
+    setName('')
+    setPrice('')
+    setDate(undefined)
+  }
 
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={closeModal}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box>
-        <TextField id="outlined-basic" label="Name" variant="outlined" onChange={(newName) => setName(newName.target.value)} />
-        <TextField  label="Price" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' } } onChange={(newPrice) => setPrice(newPrice.target.value)} />
-        <LocalizationProvider dateAdapter={DateAdapter}>
+      <Box sx={style}>
+        <Typography>Enter Subscription Data</Typography>
+        <TextField
+          sx={inputStyle}
+          id="outlined-basic"
+          label="Name"
+          variant="outlined"
+          value={name}
+          onChange={(newName) => setName(newName.target.value)}
+        />
+        <TextField
+          sx={inputStyle}
+          label="Price"
+          value={price}
+          inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+          onChange={(newPrice) => setPrice(newPrice.target.value)}
+        />
+        <LocalizationProvider sx={inputStyle} dateAdapter={DateAdapter}>
           <DatePicker
-            label="Basic example"
+            sx={inputStyle}
+            label="Due Date"
             value={date}
             onChange={(newDate) => {
               setDate(newDate.$d);
@@ -74,17 +116,18 @@ const FormModal = ({ open, handleClose }) => {
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
-        <Button variant="contained" onClick={() => handleClose(name, price, date)}>
-        Submit Subscription
-      </Button>
+        <Button
+          variant="contained"
+          onClick={() => handleCloseModal(name, price, date)}
+        >
+          Submit Subscription
+        </Button>
       </Box>
     </Modal>
   );
 };
 
 const LeftCardStatic = () => {
-
-
   return (
     <div>
       <div className="descriptions">
@@ -97,7 +140,6 @@ const LeftCardStatic = () => {
           />
         </div>
       </div>
-      
 
       {/* <div className="demoList">
                 <div className="demoItem">
@@ -139,25 +181,39 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
   const [user] = useUserState();
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
-   setOpen(true);
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
   };
 
   const handleClose = (name, price, date) => {
-      console.log(name, price, date)
-      let subsCopy = subscriptions;
-      subsCopy.push({name: name, price: price, date: date})
+    console.log(name, price, date);
+    let subsCopy = subscriptions;
+    if (name && price && date) {
+      subsCopy.push({ name: name, price: price, date: date });
       setSubscriptions(subsCopy);
       setOpen(false);
-  }
+    } else {
+      alert('Enter valid inputs')
+    }
+  };
 
   return (
     <div className="leftcard">
       {user ? <LeftCardLogin /> : <LeftCardStatic />}
-      {subscriptions.length > 0 &&  <SubscriptionList subscriptions={subscriptions} />}
+      {subscriptions.length > 0 && (
+        <SubscriptionList subscriptions={subscriptions} />
+      )}
       <Button variant="contained" onClick={handleOpen}>
         Add Subscription
       </Button>
-      <FormModal open={open} handleClose={handleClose} />
+      <FormModal
+        open={open}
+        handleClose={handleClose}
+        closeModal={closeModal}
+      />
     </div>
   );
 };
