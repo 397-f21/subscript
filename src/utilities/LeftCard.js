@@ -6,7 +6,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemText from "@mui/material/ListItemText";
-//import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -20,20 +19,20 @@ const Descriptions = {
   description: "Subscriptions",
 };
 
-const LeftCardLogin = () => {
-  return (
-    <div>
-      <p>null</p>
-    </div>
-  );
-};
-
-const SubscriptionBar = ({ name, price, date, index, deleteSubscription }) => {
+const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status }) => {
   const [isClicked, setIsClicked] = useState(false)
 
-  const ListItemStyle = {
+  const ListItemStyleStatic = {
     borderRadius: 2,
-    bgcolor: "#ffffff",
+    bgcolor: "rgba(255, 255, 255, 0.9)",
+    boxShadow: 2,
+    marginBottom: 2,
+    width: "170%",
+  }
+
+  const ListItemStyleLogin = {
+    borderRadius: 2,
+    bgcolor: "rgba(255, 255, 255, 0.9)",
     boxShadow: 2,
     marginBottom: 2,
     width: "80%",
@@ -43,9 +42,14 @@ const SubscriptionBar = ({ name, price, date, index, deleteSubscription }) => {
     setIsClicked(!isClicked)
   }
 
+  const mouseLeave = () => {
+    if(isClicked) setTimeout(()=>{setIsClicked(!isClicked)}, 500);
+  }
+
   return (
-    <ListItem disablePadding sx={ListItemStyle}>
-      <ListItemButton onClick={clicked}>
+    <ListItem disablePadding sx={() => {return status === 1 ? ListItemStyleStatic : ListItemStyleLogin}}>
+      <ListItemButton onClick={clicked}
+                      onMouseLeave={mouseLeave}>
         <ChevronRightIcon />
         <ListItemText primary={name} style={{textAlign:"center"}}/>
         <ListItemText primary={"$ " + price} style={{textAlign:"center"}} />
@@ -66,7 +70,7 @@ const SubscriptionList = ({ subscriptions, setSubscriptions }) => {
   return (
     <List>
       {subscriptions.map((e, index) => (
-        <SubscriptionBar name={e.name} price={e.price} date={e.date} index={index} deleteSubscription={deleteSubscription} />
+        <SubscriptionBar name={e.name} price={e.price} date={e.date} index={index} deleteSubscription={deleteSubscription} status={0}/>
       ))}
     </List>
   );
@@ -152,56 +156,55 @@ const FormModal = ({ open, handleClose, closeModal }) => {
 };
 
 const LeftCardStatic = () => {
+  const style = {
+    borderRadius: 2,
+    marginTop: 10,
+    marginLeft: 10,
+  }
+
   return (
     <div>
       <div className="descriptions">
         <div>{Descriptions.description}</div>
+        <List sx={style}>
+          <SubscriptionBar name={"Netfix"} price={17.99} date={new Date()} index={0} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Adobe"} price={19.99} date={new Date()} index={1} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Spotify"} price={4.99} date={new Date()} index={2} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Paste"} price={14.99} date={new Date()} index={3} deleteSubscription={()=>{}} status={1} />
+        </List>
       </div>
     </div>
   );
 };
 
-/* <div className="demoList">
-          <div className="demoItem">
-              <spanc className="column1">
-                  <img
-                      src="https://i.loli.net/2021/11/15/LZAwp2WV38J9zhu.png"
-                      alt="Netflix"
-                      style={{width:30, height:30}}/>
-              </spanc>
-              <span className="column2">Netfix</span>
-              <span className="column3">$17.99</span>
-          </div>
-          <div className="demoItem">
-              <span className="column1">
-                  <img
-                      src="https://i.loli.net/2021/11/15/d8Ls5IxvwW7POug.png"
-                      alt="Adobe"
-                      style={{width:30, height:30}}/>
-              </span>
-              <span className="column2">Adobe</span>
-              <span className="column3">$19.99</span>
-          </div>
-          <div className="demoItem">
-              <span className="column1">
-                  <img
-                      src="https://i.loli.net/2021/11/15/zfo6EG4AdhimQ3n.png"
-                      alt="Spotify"
-                      style={{width:30, height:30}}/>
-              </span>
-              <span className="column2">Spotify</span>
-              <span className="column3">$4.99</span>
-          </div>
-      </div> */
+const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open }) => {
+  return (
+      <div className="leftCardLogin">
+        {subscriptions.length > 0 && (
+            <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
+        )}
+        <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
+          Add Subscription
+        </Button>
+        <FormModal
+            open={open}
+            handleClose={handleClose}
+            closeModal={closeModel}
+        />
+      </div>
+  );
+};
+
 
 export const LeftCard = ({ subscriptions, setSubscriptions }) => {
   const [user] = useUserState();
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModel = () => {
     setOpen(false);
   };
 
@@ -219,18 +222,12 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
 
   return (
     <div className="leftcard">
-      {user ? <LeftCardLogin /> : <LeftCardStatic />}
-      {subscriptions.length > 0 && (
-        <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
-      )}
-      <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
-        Add Subscription
-      </Button>
-      <FormModal
-        open={open}
-        handleClose={handleClose}
-        closeModal={closeModal}
-      />
+      {user ? <LeftCardLogin subscriptions={subscriptions}
+                             setSubscriptions={setSubscriptions}
+                             handleOpen={handleOpen}
+                             handleClose={handleClose}
+                             closeModel={closeModel}
+                             open={open} /> : <LeftCardStatic />}
     </div>
   );
 };
