@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {LeftCard} from "./utilities/LeftCard";
 import {RightCard} from "./utilities/RightCard";
+import {Bottom} from "./utilities/bottomBar";
 import "./App.css";
 
 const Title = {
@@ -27,19 +28,6 @@ export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) 
           </div>
     </div>)
 };
-
-const Bottom = () => {
-    return (
-        <div>
-          <img
-              data-cy="logo"
-              src="https://i.loli.net/2021/11/16/CA6pPW1X8zIeGVL.png"
-              alt="AppLogo"
-              style={{ width: 40, height: 40, padding: 10}}
-          />
-        </div>
-    )
-}
 
 const App = () => {
     const [subscriptions, setSubscriptions] = useState([]);

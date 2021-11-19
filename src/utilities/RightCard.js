@@ -1,27 +1,12 @@
 import React from "react";
-import {signInWithGoogle} from "./firebase";
-import {signOut} from "./firebase";
-import {useUserState} from "./firebase";
+import {pieChart} from "./PieChart";
+import { useUserState } from "./firebase";
 import "./css/RightCard.css"
-
-const SignOutButton = () => (
-    <button className="btn btn-secondary btn-sm"
-            onClick={() => signOut()}>
-        Sign Out
-    </button>
-);
-
-const SignInButton = () => (
-    <button className="btn btn-secondary btn-sm"
-            onClick={() => signInWithGoogle()}>
-        Sign In
-    </button>
-);
 
 const RightCardStatic = () => {
     return (
         <div>
-            <SignInButton />
+            <pieChart />
         </div>
     )
 }
@@ -29,7 +14,7 @@ const RightCardStatic = () => {
 const RightCardLogin = () => {
     return (
         <div>
-            <SignOutButton />
+            {<p>you have logged in</p>}
         </div>
     )
 }
@@ -42,6 +27,7 @@ export const RightCard = () => {
             <div>
                 { user ?  <RightCardLogin /> : <RightCardStatic /> }
             </div>
+
             <div className="subscribeImg">
               <img
                 src="https://i.loli.net/2021/11/15/k7xObUzhgY2Vjty.gif"
