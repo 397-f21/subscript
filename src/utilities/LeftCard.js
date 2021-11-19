@@ -4,7 +4,7 @@ import "./css/LeftCard.css";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-// import ListItemIcon from "@mui/material/ListItemIcon";
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemText from "@mui/material/ListItemText";
 //import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Button from "@mui/material/Button";
@@ -14,7 +14,7 @@ import TextField from "@mui/material/TextField";
 import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
-import { Typography } from "@mui/material";
+import {Typography} from "@mui/material";
 
 const Descriptions = {
   description: "Subscriptions",
@@ -30,15 +30,26 @@ const LeftCardLogin = () => {
 
 const SubscriptionBar = ({ name, price, date, index, deleteSubscription }) => {
   const [isClicked, setIsClicked] = useState(false)
+
+  const ListItemStyle = {
+    borderRadius: 2,
+    bgcolor: "#ffffff",
+    boxShadow: 2,
+    marginBottom: 2,
+    width: "80%",
+  }
+
   const clicked = () => {
     setIsClicked(!isClicked)
   }
+
   return (
-    <ListItem disablePadding>
+    <ListItem disablePadding sx={ListItemStyle}>
       <ListItemButton onClick={clicked}>
-        <ListItemText primary={name} />
-        <ListItemText primary={price} />
-        <ListItemText primary={date.toDateString()} />
+        <ChevronRightIcon />
+        <ListItemText primary={name} style={{textAlign:"center"}}/>
+        <ListItemText primary={"$ " + price} style={{textAlign:"center"}} />
+        <ListItemText primary={date.toDateString()} style={{textAlign:"center"}} />
         {isClicked && <Button onClick={() => deleteSubscription(index)}>Delete?</Button>}
       </ListItemButton>
     </ListItem>
@@ -64,14 +75,15 @@ const SubscriptionList = ({ subscriptions, setSubscriptions }) => {
 const FormModal = ({ open, handleClose, closeModal }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState('');
-  const [date, setDate] = useState(undefined);
+  const today = new Date();
+  const [date, setDate] = useState(today);
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "50%",
-    bgcolor: "background.paper",
+    bgcolor: "rgba(255, 255, 255, .95)",
     borderRadius: 8,
     boxShadow: 24,
     p: 4,
@@ -89,7 +101,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
     handleClose(name, price, date);
     setName('')
     setPrice('')
-    setDate(undefined)
+    setDate(today)
   }
 
   return (
