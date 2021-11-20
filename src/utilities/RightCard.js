@@ -34,7 +34,7 @@ const RightCardStatic = () => {
                       }}
                       animate
                       animationDuration={1000}
-            />;
+            />
         </div>
     )
 }

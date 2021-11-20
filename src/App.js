@@ -39,6 +39,11 @@ const App = () => {
                   descriptionLine1={Title.descriptionLine1}
                   descriptionLine2={Title.descriptionLine2}
           />
+          <img
+              src="https://i.loli.net/2021/11/20/XMDjPehqRVQ9JK5.png"
+              alt="backgroundImg"
+              className="backgroundImg"
+          />
           <div className="body-container">
               <LeftCard className="leftcard" subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
               <RightCard className="rightcard"/>

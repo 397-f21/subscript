@@ -38,6 +38,7 @@ export const Bottom = () => {
                 src="https://i.loli.net/2021/11/16/CA6pPW1X8zIeGVL.png"
                 alt="AppLogo"
             />
+            <p style={{color:"grey", fontSize:"16px"}}>subscript</p>
             <div className="button">
                 { user ?  <SignOutButton /> : <SignInButton /> }
             </div>
