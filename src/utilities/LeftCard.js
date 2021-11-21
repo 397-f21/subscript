@@ -15,6 +15,8 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import {Typography} from "@mui/material";
 
+import { useData } from "./firebase";
+
 const Descriptions = {
   description: "Subscriptions",
 };
@@ -53,7 +55,7 @@ const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status 
         <ChevronRightIcon />
         <ListItemText primary={name} style={{textAlign:"center"}}/>
         <ListItemText primary={"$ " + price} style={{textAlign:"center"}} />
-        <ListItemText primary={date.toDateString()} style={{textAlign:"center"}} />
+        <ListItemText primary={typeof date === "string" ? date : date.toDateString()} style={{textAlign:"center"}} />
         {isClicked && <Button onClick={() => deleteSubscription(index)}>Delete?</Button>}
       </ListItemButton>
     </ListItem>
@@ -178,6 +180,24 @@ const LeftCardStatic = () => {
 };
 
 const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open }) => {
+  const updateSubscriptions = (dataSnapshot) => {
+    let subCopy = subscriptions;
+    Object.values(dataSnapshot.subscriptions).map(subscription => subCopy.push({
+      name: subscription.name,
+      price: subscription.price,
+      date: subscription.data
+    }))
+    setSubscriptions(subCopy);
+  };
+
+  const [subscriptionsD, loading, error] = useData("/");
+
+  if (error) return <h1>{error}</h1>;
+  if (loading) return <h1>Loading the schedule...</h1>;
+
+  updateSubscriptions(subscriptionsD);
+  console.log(subscriptions);
+
   return (
       <div className="leftCardLogin">
         {subscriptions.length > 0 && (

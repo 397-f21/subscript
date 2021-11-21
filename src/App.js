@@ -32,27 +32,27 @@ export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) 
 const App = () => {
     const [subscriptions, setSubscriptions] = useState([]);
 
-  return (
-      <div className="container">
-          <Banner title={Title.title}
+    return (
+        <div className="container">
+            <Banner title={Title.title}
                   subtitle={Title.subtitle}
                   descriptionLine1={Title.descriptionLine1}
                   descriptionLine2={Title.descriptionLine2}
-          />
-          <img
+            />
+            <img
               src="https://i.loli.net/2021/11/20/XMDjPehqRVQ9JK5.png"
               alt="backgroundImg"
               className="backgroundImg"
-          />
-          <div className="body-container">
+            />
+            <div className="body-container">
               <LeftCard className="leftcard" subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
               <RightCard className="rightcard"/>
-          </div>
-          <div className="bottom">
+            </div>
+            <div className="bottom">
               <Bottom />
-          </div>
-      </div>
-  );
+            </div>
+        </div>
+    );
 };
 
 export default App;
