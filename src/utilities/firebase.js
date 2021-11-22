@@ -34,10 +34,6 @@ const firebaseSignOut = () => signOut(getAuth(firebase));
 
 export { firebaseSignOut as signOut };
 
-// export const writeData = () => {
-//
-// }
-
 export const useData = (path, transform) => {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(true);
@@ -62,3 +58,7 @@ export const useData = (path, transform) => {
 
     return [data, loading, error];
 };
+
+export const setData = (path, value) => (
+    set(ref(database, path), value)
+  );

@@ -15,7 +15,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import {Typography} from "@mui/material";
 
-import { useData } from "./firebase";
+import { useData, setData } from "./firebase";
 
 const Descriptions = {
   description: "Subscriptions",
@@ -55,7 +55,7 @@ const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status 
         <ChevronRightIcon />
         <ListItemText primary={name} style={{textAlign:"center"}}/>
         <ListItemText primary={"$ " + price} style={{textAlign:"center"}} />
-        <ListItemText primary={typeof date === "string" ? date : date.toDateString()} style={{textAlign:"center"}} />
+        <ListItemText primary={typeof date === "string" ? date : date != null ? date.toDateString() : ""} style={{textAlign:"center"}} />
         {isClicked && <Button onClick={() => deleteSubscription(index)}>Delete?</Button>}
       </ListItemButton>
     </ListItem>
@@ -78,7 +78,7 @@ const SubscriptionList = ({ subscriptions, setSubscriptions }) => {
   );
 };
 
-const FormModal = ({ open, handleClose, closeModal }) => {
+const FormModal = ({ open, handleClose, closeModal, user }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState('');
   const today = new Date();
@@ -103,11 +103,19 @@ const FormModal = ({ open, handleClose, closeModal }) => {
     marginBottom: "15px",
   };
 
-  const handleCloseModal = (name, price, date) => {
-    handleClose(name, price, date);
-    setName('')
-    setPrice('')
-    setDate(today)
+  const handleCloseModal = (name, price, date, user) => {
+    handleClose(name, price, date, "/" + reformatPath(user.email) + "/subscriptions");
+
+    // console.log(currentSubscriptions);
+    // var copySubcriptions = currentSubscriptions;
+    // console.log(currentSubscriptions);
+    // copySubcriptions.push({
+    //   name: name,
+    //   price: price,
+    //   date: date
+    // });
+    // console.log(currentSubscriptions);
+    // console.log("-----------");
   }
 
   return (
@@ -148,7 +156,7 @@ const FormModal = ({ open, handleClose, closeModal }) => {
         <Button
           style={{marginTop: "20px"}}
           variant="contained"
-          onClick={() => handleCloseModal(name, price, date)}
+          onClick={() => handleCloseModal(name, price, date, user)}
         >
           Submit Subscription
         </Button>
@@ -179,28 +187,19 @@ const LeftCardStatic = () => {
   );
 };
 
-const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open }) => {
-  const updateSubscriptions = (dataSnapshot) => {
-    let subCopy = subscriptions;
-    Object.values(dataSnapshot.subscriptions).map(subscription => subCopy.push({
-      name: subscription.name,
-      price: subscription.price,
-      date: subscription.data
-    }))
-    setSubscriptions(subCopy);
-  };
+const reformatPath = (path) => path.replace(/[^A-Z0-9]+/ig, "_");
 
-  const [subscriptionsD, loading, error] = useData("/");
+const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open, user }) => {
+
+  const [subscriptionsData, loading, error] = useData("/" + reformatPath(user.email) + "/subscriptions");
+  setSubscriptions(subscriptionsData);
 
   if (error) return <h1>{error}</h1>;
-  if (loading) return <h1>Loading the schedule...</h1>;
-
-  updateSubscriptions(subscriptionsD);
-  console.log(subscriptions);
+  if (loading) return <h1>Loading the subscriptions...</h1>;
 
   return (
       <div className="leftCardLogin">
-        {subscriptions.length > 0 && (
+        {subscriptions != null && subscriptions.length > 0 && (
             <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
         )}
         <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
@@ -210,6 +209,8 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
             open={open}
             handleClose={handleClose}
             closeModal={closeModel}
+            subscriptions={subscriptions != null ? subscriptions : []}
+            user={user}
         />
       </div>
   );
@@ -228,12 +229,14 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
     setOpen(false);
   };
 
-  const handleClose = (name, price, date) => {
+  const handleClose = (name, price, date, path) => {
     console.log(name, price, date);
     let subsCopy = subscriptions;
     if (name && price && date) {
-      subsCopy.push({ name: name, price: price, date: date });
-      setSubscriptions(subsCopy);
+      subsCopy.push({ name: name, price: price, date: date.toDateString() });
+      console.log(subsCopy);
+      setData(path, subsCopy);
+      // setSubscriptions(subsCopy);
       setOpen(false);
     } else {
       alert('Enter valid inputs')
@@ -247,7 +250,8 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
                              handleOpen={handleOpen}
                              handleClose={handleClose}
                              closeModel={closeModel}
-                             open={open} /> : <LeftCardStatic />}
+                             open={open}
+                             user={user} /> : <LeftCardStatic />}
     </div>
   );
 };
