@@ -14,12 +14,20 @@ import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import {Typography} from "@mui/material";
-
 import { useData, setData } from "./firebase";
+import netflix from "./assets/netflix.png";
+import spotify from "./assets/spotify.png";
+import prime from "./assets/prime.png";
 
 const Descriptions = {
   description: "Subscriptions",
 };
+
+const subscriptionIcons = {
+  "spotify": spotify,
+  "netflix": netflix,
+  "prime": prime,
+}
 
 const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status, path }) => {
   const [isClicked, setIsClicked] = useState(false)
@@ -48,11 +56,12 @@ const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status,
     if(isClicked) setTimeout(()=>{setIsClicked(!isClicked)}, 500);
   }
 
+
   return (
     <ListItem disablePadding sx={() => {return status === 1 ? ListItemStyleStatic : ListItemStyleLogin}}>
       <ListItemButton onClick={clicked}
                       onMouseLeave={mouseLeave}>
-        <ChevronRightIcon />
+        {subscriptionIcons[name.toLowerCase()] != null ? <img src={subscriptionIcons[name.toLowerCase()]} style={{height:"30px", width: "30px"}}/> : <ChevronRightIcon />}
         <ListItemText primary={name} style={{textAlign:"center"}}/>
         <ListItemText primary={"$ " + price} style={{textAlign:"center"}} />
         <ListItemText primary={typeof date === "string" ? date : date != null ? date.toDateString() : ""} style={{textAlign:"center"}} />
@@ -194,14 +203,14 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
   const [subscriptionsData, loading, error] = useData("/" + reformatPath(user.email) + "/subscriptions");
   setSubscriptions(subscriptionsData);
 
-  if (error) return <h1>{error}</h1>;
-  if (loading) return <h1>Loading the subscriptions...</h1>;
+  if (error) return <h2>{error}</h2>;
+  if (loading) return <h2>Loading the subscriptions...</h2>;
 
   return (
       <div className="leftCardLogin">
         {subscriptions != null && subscriptions.length > 0 ? (
             <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"}/>
-        ) : <h1>You haven't added any subscriptions yet!</h1>}
+        ) : <h2>You haven't added any subscriptions yet!</h2>}
         <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
           Add Subscription
         </Button>
@@ -232,6 +241,9 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
   const handleClose = (name, price, date, path) => {
     console.log(name, price, date);
     let subsCopy = subscriptions;
+    if (subsCopy == null){
+      subsCopy = [];
+    }
     if (name && price && date) {
       subsCopy.push({ name: name, price: price, date: date.toDateString() });
       console.log(subsCopy);
