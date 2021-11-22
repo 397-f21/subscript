@@ -21,7 +21,7 @@ const Descriptions = {
   description: "Subscriptions",
 };
 
-const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status }) => {
+const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status, path }) => {
   const [isClicked, setIsClicked] = useState(false)
 
   const ListItemStyleStatic = {
@@ -56,23 +56,23 @@ const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status 
         <ListItemText primary={name} style={{textAlign:"center"}}/>
         <ListItemText primary={"$ " + price} style={{textAlign:"center"}} />
         <ListItemText primary={typeof date === "string" ? date : date != null ? date.toDateString() : ""} style={{textAlign:"center"}} />
-        {isClicked && <Button onClick={() => deleteSubscription(index)}>Delete?</Button>}
+        {isClicked && <Button onClick={() => deleteSubscription(index, path)}>Delete?</Button>}
       </ListItemButton>
     </ListItem>
   );
 };
 
-const SubscriptionList = ({ subscriptions, setSubscriptions }) => {
+const SubscriptionList = ({ subscriptions, path}) => {
   const deleteSubscription = (index) => {
     let subsCopy = subscriptions;
     subsCopy.splice(index,1);
     console.log(subsCopy);
-    setSubscriptions(subsCopy);
+    setData(path, subsCopy);
   }
   return (
     <List>
       {subscriptions.map((e, index) => (
-        <SubscriptionBar name={e.name} price={e.price} date={e.date} index={index} deleteSubscription={deleteSubscription} status={0}/>
+        <SubscriptionBar name={e.name} price={e.price} date={e.date} index={index} deleteSubscription={deleteSubscription} status={0} path={path}/>
       ))}
     </List>
   );
@@ -199,9 +199,9 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
 
   return (
       <div className="leftCardLogin">
-        {subscriptions != null && subscriptions.length > 0 && (
-            <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
-        )}
+        {subscriptions != null && subscriptions.length > 0 ? (
+            <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"}/>
+        ) : <h1>You haven't added any subscriptions yet!</h1>}
         <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
           Add Subscription
         </Button>
