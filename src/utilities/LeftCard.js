@@ -45,7 +45,7 @@ const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status,
     bgcolor: "rgba(255, 255, 255, 0.9)",
     boxShadow: 2,
     marginBottom: 2,
-    width: "80%",
+    width: "75%",
   }
 
   const clicked = () => {
@@ -199,17 +199,15 @@ const LeftCardStatic = () => {
 const reformatPath = (path) => path.replace(/[^A-Z0-9]+/ig, "_");
 
 const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open, user }) => {
-
   const [subscriptionsData, loading, error] = useData("/" + reformatPath(user.email) + "/subscriptions");
-  setSubscriptions(subscriptionsData);
-
   if (error) return <h2>{error}</h2>;
   if (loading) return <h2>Loading the subscriptions...</h2>;
+  setSubscriptions(subscriptionsData);
 
   return (
       <div className="leftCardLogin">
         {subscriptions != null && subscriptions.length > 0 ? (
-            <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"}/>
+            <SubscriptionList subscriptions={subscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"}/>
         ) : <h2>You haven't added any subscriptions yet!</h2>}
         <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
           Add Subscription
@@ -248,7 +246,6 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
       subsCopy.push({ name: name, price: price, date: date.toDateString() });
       console.log(subsCopy);
       setData(path, subsCopy);
-      // setSubscriptions(subsCopy);
       setOpen(false);
     } else {
       alert('Enter valid inputs')
