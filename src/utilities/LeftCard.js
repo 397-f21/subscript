@@ -179,28 +179,35 @@ const LeftCardStatic = () => {
   );
 };
 
-const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open }) => {
-  const updateSubscriptions = (dataSnapshot) => {
-    let subCopy = subscriptions;
-    Object.values(dataSnapshot.subscriptions).map(subscription => subCopy.push({
-      name: subscription.name,
-      price: subscription.price,
-      date: subscription.data
-    }))
-    setSubscriptions(subCopy);
-  };
+const reformatPath = (path) => path.replace(/[^A-Z0-9]+/ig, "_");
 
-  const [subscriptionsD, loading, error] = useData("/");
+const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open, user }) => {
+  // const updateSubscriptions = (dataSnapshot) => {
+  //   let subCopy = [];
+  //   if (dataSnapshot != null && dataSnapshot.subscriptions != null){
+  //     Object.values(dataSnapshot.subscriptions).map(subscription => subCopy.push({
+  //       name: subscription.name,
+  //       price: subscription.price,
+  //       date: subscription.data
+  //     }));
+  //   }
+  //   setSubscriptions(subCopy);
+  // };
+
+  console.log(reformatPath(user.email));
+
+  const [subscriptionsData, loading, error] = useData("/" + reformatPath(user.email) + "/subscriptions");
+  setSubscriptions(subscriptionsData);
 
   if (error) return <h1>{error}</h1>;
-  if (loading) return <h1>Loading the schedule...</h1>;
+  if (loading) return <h1>Loading the subscriptions...</h1>;
 
-  updateSubscriptions(subscriptionsD);
+  // updateSubscriptions(subscriptionsData);
   console.log(subscriptions);
 
   return (
       <div className="leftCardLogin">
-        {subscriptions.length > 0 && (
+        {subscriptions != null && subscriptions.length > 0 && (
             <SubscriptionList subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
         )}
         <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
@@ -247,7 +254,8 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
                              handleOpen={handleOpen}
                              handleClose={handleClose}
                              closeModel={closeModel}
-                             open={open} /> : <LeftCardStatic />}
+                             open={open}
+                             user={user} /> : <LeftCardStatic />}
     </div>
   );
 };
