@@ -12,8 +12,11 @@ const dataMock = [
 ];
 
 const RightCardStatic = () => {
-    const totalSpending = () => {
+    const totalSpendingMonthly = () => {
         return 17.99 + 19.99 + 4.99 + 14.99;
+    }
+    const totalSpendingAnnually = () => {
+        return (17.99 + 19.99 + 4.99 + 14.99)*12;
     }
 
     return (
@@ -41,7 +44,8 @@ const RightCardStatic = () => {
             />
             <div className="Details">
                 <p>Items: 4</p>
-                <p>Total: $ {totalSpending()} per month </p>
+                <p>Total: $ {totalSpendingMonthly()} per month </p>
+                <p>Total: $ {totalSpendingAnnually()} per year </p>
             </div>
         </div>
     )
