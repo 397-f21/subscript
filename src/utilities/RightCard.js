@@ -3,17 +3,37 @@ import { useUserState } from "./firebase";
 import "./css/RightCard.css"
 import { PieChart } from 'react-minimal-pie-chart';
 import {useData} from "./firebase";
+import {ListItem, ListItemText} from "@mui/material";
 
 const dataMock = [
     { title: 'Netfix', value: 17.99, color: 'rgba(252, 108, 70, 0.9)' },
     { title: 'Adobe', value: 19.99, color: 'rgba(28, 133, 255, 0.9)' },
     { title: 'Spotify', value: 4.99, color: 'rgba(255, 194, 59, 0.9)' },
     { title: 'Paste', value: 14.99, color: 'rgba(233, 166, 153, 0.9)'},
+    { title: 'Prime', value: 12.99, color: 'rgba(72, 114, 171, 0.9)'}
 ];
+
+const DetailsBar = ({detailsTitle, detailsItem}) => {
+    const style = {
+        borderRadius: 2,
+        bgcolor: "rgba(255, 255, 255, 0.9)",
+        boxShadow: 2,
+        marginBottom: 2,
+        marginLeft: 10,
+        width: "60%",
+    }
+
+    return (
+        <ListItem disablePadding sx={style}>
+            <ListItemText primary={detailsTitle} style={{textAlign:"center"}} />
+            <ListItemText primary={detailsItem} style={{textAlign:"center"}} />
+        </ListItem>
+    )
+}
 
 const RightCardStatic = () => {
     const totalSpending = () => {
-        return 17.99 + 19.99 + 4.99 + 14.99;
+        return 17.99 + 19.99 + 4.99 + 14.99 + 12.99;
     }
 
     return (
@@ -40,8 +60,9 @@ const RightCardStatic = () => {
                       animationDuration={1000}
             />
             <div className="Details">
-                <p>Items: 4</p>
-                <p>Total: $ {totalSpending()} per month </p>
+                <DetailsBar detailsTitle={"Items:" } detailsItem={5} />
+                <DetailsBar detailsTitle={"Total per month:"} detailsItem={"$ " + totalSpending()} />
+                <DetailsBar detailsTitle={"Total per year:"} detailsItem={"$ " + (12 * totalSpending()).toFixed(2)} />
             </div>
         </div>
     )
@@ -75,7 +96,6 @@ const RightCardLogin = ({user}) => {
         return sum;
     }
 
-    // console.log(loginDataMockCopy);
     return (
         <div>
             <PieChart data={loginDataMockCopy}
@@ -100,8 +120,9 @@ const RightCardLogin = ({user}) => {
                       animationDuration={1000}
             />
             <div className="Details">
-                <p>Items: {loginDataMockCopy.length}</p>
-                <p>Total: $ {totalSpending()} per month </p>
+                <DetailsBar detailsTitle={"Items:" } detailsItem={loginDataMockCopy.length} />
+                <DetailsBar detailsTitle={"Total per month:"} detailsItem={"$ " + totalSpending()} />
+                <DetailsBar detailsTitle={"Total per year:"} detailsItem={"$ " + (12 * totalSpending()).toFixed(2)} />
             </div>
         </div>
     )
