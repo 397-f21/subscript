@@ -22,15 +22,15 @@ import { useData, setData } from "./firebase";
 import netflix from "./assets/netflix.png";
 import spotify from "./assets/spotify.png";
 import prime from "./assets/prime.png";
-
-const Descriptions = {
-  description: "Subscriptions",
-};
+import adobe from './assets/adobe.jpeg';
+import paste from './assets/paste.png';
 
 const subscriptionIcons = {
   "spotify": spotify,
   "netflix": netflix,
   "prime": prime,
+  "adobe": adobe,
+  "paste": paste,
 }
 
 const SubscriptionBar = ({ name, price, date, type, index, deleteSubscription, status, path }) => {
@@ -195,19 +195,25 @@ const FormModal = ({ open, handleClose, closeModal, user }) => {
 const LeftCardStatic = () => {
   const style = {
     borderRadius: 2,
-    marginTop: 10,
-    marginLeft: 10,
   }
-
+  // font-weight: bold;
+  // font-size: x-large;
+  // color: dodgerblue;
+  // line-height: 20px;
   return (
     <div>
+      <p style={{paddingTop: "50px",
+                 fontSize: "22px",
+                 fontWeight: "bold",
+                 color: "dodgerblue",
+                 fontFamily: "Gill Sans"}}> Examples for subscript </p>
       <div className="descriptions">
-        <div>{Descriptions.description}</div>
         <List sx={style}>
           <SubscriptionBar name={"Netflix"} price={17.99} date={new Date()} type={12} index={0} deleteSubscription={()=>{}} status={1} />
           <SubscriptionBar name={"Adobe"} price={19.99} date={new Date()} type={12} index={1} deleteSubscription={()=>{}} status={1} />
           <SubscriptionBar name={"Spotify"} price={4.99} date={new Date()} type={12} index={2} deleteSubscription={()=>{}} status={1} />
           <SubscriptionBar name={"Paste"} price={14.99} date={new Date()} type={12} index={3} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Prime"} price={12.99} date={new Date()} type=[12 index={4} deleteSubscription={()=>{}} status={1} /
         </List>
       </div>
     </div>
@@ -222,21 +228,31 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
   if (loading) return <h2>Loading the subscriptions...</h2>;
   setSubscriptions(subscriptionsData);
 
+  const style = {
+    marginLeft: -22,
+  }
   return (
-      <div className="leftCardLogin">
-        {subscriptions != null && subscriptions.length > 0 ? (
-            <SubscriptionList subscriptions={subscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"}/>
-        ) : <h2>You haven't added any subscriptions yet!</h2>}
-        <Button padding={10} margin={5} variant="contained" onClick={handleOpen}>
-          Add Subscription
-        </Button>
-        <FormModal
-            open={open}
-            handleClose={handleClose}
-            closeModal={closeModel}
-            subscriptions={subscriptions != null ? subscriptions : []}
-            user={user}
-        />
+      <div className="leftCardLoginPage">
+        <p style={{paddingTop: "50px",
+          fontSize: "22px",
+          fontWeight: "bold",
+          color: "dodgerblue",
+          fontFamily: "Gill Sans"}}> Manage your subscriptions ! </p>
+        <div className="leftCardLogin">
+          {subscriptions != null && subscriptions.length > 0 ? (
+              <SubscriptionList subscriptions={subscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"}/>
+          ) : <h2>You haven't added any subscriptions yet!</h2>}
+          <Button sx={style} variant="contained" onClick={handleOpen}>
+            Add Subscription
+          </Button>
+          <FormModal
+              open={open}
+              handleClose={handleClose}
+              closeModal={closeModel}
+              subscriptions={subscriptions != null ? subscriptions : []}
+              user={user}
+          />
+        </div>
       </div>
   );
 };
