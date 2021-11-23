@@ -64,15 +64,18 @@ const RightCardLogin = ({user}) => {
 
     let loginDataMockCopy = [];
     subscriptionsData != null ? subscriptionsData.map((e) => {
-        loginDataMockCopy.push({ title: e.name, value: parseFloat(e.price), color: generateColor()});
+        loginDataMockCopy.push({ title: e.name, value: e.type === 1 ? parseFloat(e.price): 12*parseFloat(e.price), color: generateColor()});
     }) : loginDataMockCopy = [];
 
     const totalSpending = () => {
-        var sum = 0;
+        var monthsum = 0;
+        var annualsum = 0;
         loginDataMockCopy.forEach((value) => {
-            sum += value.value;
+            annualsum += value.value;
         })
-        return sum;
+        monthsum = annualsum/12;
+        monthsum = Math.round(100*monthsum)/100;
+        return [annualsum, monthsum];
     }
 
     // console.log(loginDataMockCopy);
@@ -101,7 +104,8 @@ const RightCardLogin = ({user}) => {
             />
             <div className="Details">
                 <p>Items: {loginDataMockCopy.length}</p>
-                <p>Total: $ {totalSpending()} per month </p>
+                <p>Total Monthly: $ {totalSpending()[1]} per month </p>
+                <p>Total Annually: $ {totalSpending()[0]} per year </p>
             </div>
         </div>
     )
