@@ -213,7 +213,7 @@ const LeftCardStatic = () => {
           <SubscriptionBar name={"Adobe"} price={19.99} date={new Date()} type={12} index={1} deleteSubscription={()=>{}} status={1} />
           <SubscriptionBar name={"Spotify"} price={4.99} date={new Date()} type={12} index={2} deleteSubscription={()=>{}} status={1} />
           <SubscriptionBar name={"Paste"} price={14.99} date={new Date()} type={12} index={3} deleteSubscription={()=>{}} status={1} />
-          <SubscriptionBar name={"Prime"} price={12.99} date={new Date()} type=[12 index={4} deleteSubscription={()=>{}} status={1} /
+          <SubscriptionBar name={"Prime"} price={12.99} date={new Date()} type={12} index={4} deleteSubscription={()=>{}} status={1} /
         </List>
       </div>
     </div>
