@@ -12,6 +12,10 @@ const dataMock = [
 ];
 
 const RightCardStatic = () => {
+    const totalSpending = () => {
+        return 17.99 + 19.99 + 4.99 + 14.99;
+    }
+
     return (
         <div>
             <PieChart data={dataMock}
@@ -35,6 +39,10 @@ const RightCardStatic = () => {
                       animate
                       animationDuration={1000}
             />
+            <div className="Details">
+                <p>Items: 4</p>
+                <p>Total: $ {totalSpending()} per month </p>
+            </div>
         </div>
     )
 }
@@ -56,10 +64,18 @@ const RightCardLogin = ({user}) => {
 
     let loginDataMockCopy = [];
     subscriptionsData != null ? subscriptionsData.map((e) => {
-        loginDataMockCopy.push({ title: e.name, value: parseInt(e.price), color: generateColor()});
+        loginDataMockCopy.push({ title: e.name, value: parseFloat(e.price), color: generateColor()});
     }) : loginDataMockCopy = [];
 
-    console.log(loginDataMockCopy);
+    const totalSpending = () => {
+        var sum = 0;
+        loginDataMockCopy.forEach((value) => {
+            sum += value.value;
+        })
+        return sum;
+    }
+
+    // console.log(loginDataMockCopy);
     return (
         <div>
             <PieChart data={loginDataMockCopy}
@@ -83,6 +99,10 @@ const RightCardLogin = ({user}) => {
                       animate
                       animationDuration={1000}
             />
+            <div className="Details">
+                <p>Items: {loginDataMockCopy.length}</p>
+                <p>Total: $ {totalSpending()} per month </p>
+            </div>
         </div>
     )
 }

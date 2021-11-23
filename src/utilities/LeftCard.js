@@ -186,7 +186,7 @@ const LeftCardStatic = () => {
       <div className="descriptions">
         <div>{Descriptions.description}</div>
         <List sx={style}>
-          <SubscriptionBar name={"Netfix"} price={17.99} date={new Date()} index={0} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Netflix"} price={17.99} date={new Date()} index={0} deleteSubscription={()=>{}} status={1} />
           <SubscriptionBar name={"Adobe"} price={19.99} date={new Date()} index={1} deleteSubscription={()=>{}} status={1} />
           <SubscriptionBar name={"Spotify"} price={4.99} date={new Date()} index={2} deleteSubscription={()=>{}} status={1} />
           <SubscriptionBar name={"Paste"} price={14.99} date={new Date()} index={3} deleteSubscription={()=>{}} status={1} />
