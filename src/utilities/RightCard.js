@@ -36,7 +36,7 @@ const RightCardStatic = () => {
         return 17.99 + 19.99 + 4.99 + 14.99 + 12.99
     }
     const totalSpendingAnnually = () => {
-        return (17.99 + 19.99 + 4.99 + 14.99 + 12.99)*12;
+        return Math.round(100*((17.99 + 19.99 + 4.99 + 14.99 + 12.99)*12))/100
     }
 
     return (
