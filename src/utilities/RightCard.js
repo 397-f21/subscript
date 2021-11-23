@@ -61,8 +61,8 @@ const RightCardStatic = () => {
             />
             <div className="Details">
                 <DetailsBar detailsTitle={"Items:" } detailsItem={5} />
-                <DetailsBar detailsTitle={"Total per month:"} detailsItem={"$ " + totalSpending()} />
-                <DetailsBar detailsTitle={"Total per year:"} detailsItem={"$ " + (12 * totalSpending()).toFixed(2)} />
+                <DetailsBar detailsTitle={"Total monthly:"} detailsItem={"$ " + totalSpending()} />
+                <DetailsBar detailsTitle={"Total annually:"} detailsItem={"$ " + (12 * totalSpending()).toFixed(2)} />
             </div>
         </div>
     )
@@ -121,8 +121,8 @@ const RightCardLogin = ({user}) => {
             />
             <div className="Details">
                 <DetailsBar detailsTitle={"Items:" } detailsItem={loginDataMockCopy.length} />
-                <DetailsBar detailsTitle={"Total per month:"} detailsItem={"$ " + totalSpending()} />
-                <DetailsBar detailsTitle={"Total per year:"} detailsItem={"$ " + (12 * totalSpending()).toFixed(2)} />
+                <DetailsBar detailsTitle={"Total monthly:"} detailsItem={"$ " + totalSpending()} />
+                <DetailsBar detailsTitle={"Total annually:"} detailsItem={"$ " + (12 * totalSpending()).toFixed(2)} />
             </div>
         </div>
     )
