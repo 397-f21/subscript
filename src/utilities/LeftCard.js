@@ -178,9 +178,17 @@ const LeftCardStatic = () => {
   const style = {
     borderRadius: 2,
   }
-
+  // font-weight: bold;
+  // font-size: x-large;
+  // color: dodgerblue;
+  // line-height: 20px;
   return (
     <div>
+      <p style={{paddingTop: "50px",
+                 fontSize: "22px",
+                 fontWeight: "bold",
+                 color: "dodgerblue",
+                 fontFamily: "Gill Sans"}}> Examples for subscript </p>
       <div className="descriptions">
         <List sx={style}>
           <SubscriptionBar name={"Netflix"} price={17.99} date={new Date()} index={0} deleteSubscription={()=>{}} status={1} />
@@ -206,20 +214,27 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
     marginLeft: -22,
   }
   return (
-      <div className="leftCardLogin">
-        {subscriptions != null && subscriptions.length > 0 ? (
-            <SubscriptionList subscriptions={subscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"}/>
-        ) : <h2>You haven't added any subscriptions yet!</h2>}
-        <Button sx={style} variant="contained" onClick={handleOpen}>
-          Add Subscription
-        </Button>
-        <FormModal
-            open={open}
-            handleClose={handleClose}
-            closeModal={closeModel}
-            subscriptions={subscriptions != null ? subscriptions : []}
-            user={user}
-        />
+      <div className="leftCardLoginPage">
+        <p style={{paddingTop: "50px",
+          fontSize: "22px",
+          fontWeight: "bold",
+          color: "dodgerblue",
+          fontFamily: "Gill Sans"}}> Manage your subscriptions ! </p>
+        <div className="leftCardLogin">
+          {subscriptions != null && subscriptions.length > 0 ? (
+              <SubscriptionList subscriptions={subscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"}/>
+          ) : <h2>You haven't added any subscriptions yet!</h2>}
+          <Button sx={style} variant="contained" onClick={handleOpen}>
+            Add Subscription
+          </Button>
+          <FormModal
+              open={open}
+              handleClose={handleClose}
+              closeModal={closeModel}
+              subscriptions={subscriptions != null ? subscriptions : []}
+              user={user}
+          />
+        </div>
       </div>
   );
 };
