@@ -38,6 +38,7 @@
   top: -170px;
   width: 90%;
   margin:0 auto;
+  margin-bottom: 1%;
   border-radius: 1rem;
   text-align: center;
   color: black;
@@ -65,4 +66,17 @@
   right: 10px;
   width: 25%;
   height: 45%;
+  animation: move 3s infinite;
+  animation-direction: alternate;
+}
+
+@keyframes move {
+  0%
+  {
+    transform: translateY(0px);
+  }
+  100%
+  {
+    transform: translateY(20px);
+  }
 }

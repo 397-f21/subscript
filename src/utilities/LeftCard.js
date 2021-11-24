@@ -6,6 +6,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemText from "@mui/material/ListItemText";
+import {FormHelperText} from "@mui/material";
+import InputLabel from '@mui/material/InputLabel';
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -13,9 +15,7 @@ import TextField from "@mui/material/TextField";
 import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
-// import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {Typography} from "@mui/material";
 import { useData, setData } from "./firebase";
@@ -69,7 +69,7 @@ const SubscriptionBar = ({ name, price, date, type, index, deleteSubscription, s
         <ListItemText primary={name} style={{textAlign:"center"}}/>
         <ListItemText primary={"$ " + price} style={{textAlign:"center"}} />
         <ListItemText primary={typeof date === "string" ? date : date != null ? date.toDateString() : ""} style={{textAlign:"center"}} />
-        <ListItemText primary={type === 12 ? "Monthly": "Annually"} style={{textAlign:"center"}} />
+        <ListItemText primary={type === 2 ? "Monthly": "Annually"} style={{textAlign:"center"}} />
         {isClicked && <Button onClick={() => deleteSubscription(index, path)}>Delete?</Button>}
       </ListItemButton>
     </ListItem>
@@ -121,17 +121,6 @@ const FormModal = ({ open, handleClose, closeModal, user }) => {
 
   const handleCloseModal = (name, price, date, type, user) => {
     handleClose(name, price, date, type, "/" + reformatPath(user.email) + "/subscriptions");
-
-    // console.log(currentSubscriptions);
-    // var copySubcriptions = currentSubscriptions;
-    // console.log(currentSubscriptions);
-    // copySubcriptions.push({
-    //   name: name,
-    //   price: price,
-    //   date: date
-    // });
-    // console.log(currentSubscriptions);
-    // console.log("-----------");
   }
 
   return (
@@ -142,26 +131,46 @@ const FormModal = ({ open, handleClose, closeModal, user }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography sx={inputStyle}> Enter Subscription Data: </Typography>
+        <Typography sx={{fontSize:18, marginBottom:"30px"}}> Please Enter Subscription Data: </Typography>
+        <InputLabel id="name-label" sx={{fontSize:14}}>Name of subscription</InputLabel>
         <TextField
           sx={inputStyle}
-          id="outlined-basic"
+          labelId="name-label"
+          id="name"
           label="Name"
-          variant="outlined"
           value={name}
-          onChange={(newName) => setName(newName.target.value)}
-        />
+          onChange={(newName) => setName(newName.target.value)}/>
+        <FormHelperText sx={{textAlign:"center", marginTop:-1}}> Enter the name of your subscription</FormHelperText>
+        <InputLabel id="price-label" sx={{fontSize:14}}>Price of subscription</InputLabel>
         <TextField
           sx={inputStyle}
+          labelId="price-label"
+          id="price"
           label="Price"
           value={price}
           inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-          onChange={(newPrice) => setPrice(newPrice.target.value)}
-        />
+          onChange={(newPrice) => setPrice(newPrice.target.value)}/>
+        <FormHelperText sx={{textAlign:"center", marginTop:-1}}> Should only contains 0~9 & .</FormHelperText>
+        <InputLabel id="type-label" sx={{fontSize:14}}>Type of subscription</InputLabel>
+        <Select
+          sx={inputStyle}
+          labelId="type-label"
+          id="type"
+          label="Type"
+          value={type}
+          onChange={(newType) => setType(newType.target.value)}>
+          <MenuItem disabled value=""><em>None</em></MenuItem>
+          <MenuItem value={2}>Monthly</MenuItem>
+          <MenuItem value={1}>Annually</MenuItem>
+        </Select>
+        <FormHelperText sx={{textAlign:"center", marginTop:-1, marginBottom:1}}> Monthly / Annually</FormHelperText>
+        <InputLabel id="date-label" sx={{fontSize:14, marginBottom:2}}>Start date of subscription</InputLabel>
         <LocalizationProvider sx={inputStyle} dateAdapter={DateAdapter} >
           <DatePicker
             sx={inputStyle}
-            label="Due Date"
+            id="date"
+            labelId="date-label"
+            label="Start Date"
             value={date}
             onChange={(newDate) => {
               setDate(newDate.$d);
@@ -169,22 +178,10 @@ const FormModal = ({ open, handleClose, closeModal, user }) => {
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
-        <Select
-          sx={inputStyle}
-          label="Type"
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={type}
-          onChange={(newType) => setType(newType.target.value)}
-        >
-          <MenuItem value={12}>Monthly</MenuItem>
-          <MenuItem value={1}>Annually</MenuItem>
-        </Select>
         <Button
-          style={{marginTop: "20px"}}
+          style={{width:"50%", margin:"0 auto", marginTop:"30px"}}
           variant="contained"
-          onClick={() => handleCloseModal(name, price, date, type, user)}
-        >
+          onClick={() => handleCloseModal(name, price, date, type, user)}>
           Submit Subscription
         </Button>
       </Box>
@@ -196,10 +193,7 @@ const LeftCardStatic = () => {
   const style = {
     borderRadius: 2,
   }
-  // font-weight: bold;
-  // font-size: x-large;
-  // color: dodgerblue;
-  // line-height: 20px;
+
   return (
     <div>
       <p style={{paddingTop: "50px",
@@ -209,11 +203,11 @@ const LeftCardStatic = () => {
                  fontFamily: "Gill Sans"}}> Examples for subscript </p>
       <div className="descriptions">
         <List sx={style}>
-          <SubscriptionBar name={"Netflix"} price={17.99} date={new Date()} type={12} index={0} deleteSubscription={()=>{}} status={1} />
-          <SubscriptionBar name={"Adobe"} price={19.99} date={new Date()} type={12} index={1} deleteSubscription={()=>{}} status={1} />
-          <SubscriptionBar name={"Spotify"} price={4.99} date={new Date()} type={12} index={2} deleteSubscription={()=>{}} status={1} />
-          <SubscriptionBar name={"Paste"} price={14.99} date={new Date()} type={12} index={3} deleteSubscription={()=>{}} status={1} />
-          <SubscriptionBar name={"Prime"} price={12.99} date={new Date()} type={12} index={4} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Netflix"} price={17.99} date={new Date()} type={2} index={0} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Adobe"} price={19.99} date={new Date()} type={2} index={1} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Spotify"} price={4.99} date={new Date()} type={2} index={2} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Paste"} price={14.99} date={new Date()} type={1} index={3} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Prime"} price={12.99} date={new Date()} type={2} index={4} deleteSubscription={()=>{}} status={1} />
         </List>
       </div>
     </div>
@@ -231,6 +225,7 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
   const style = {
     marginLeft: -22,
   }
+
   return (
       <div className="leftCardLoginPage">
         <p style={{paddingTop: "50px",

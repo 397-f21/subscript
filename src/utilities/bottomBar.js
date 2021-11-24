@@ -39,6 +39,9 @@ export const Bottom = () => {
                 alt="AppLogo"
             />
             <p style={{color:"grey", fontSize:"16px"}}>subscript</p>
+            <div className="welcome">
+                { user ? <p> Welcome! {user.email} </p> : <p> </p>}
+            </div>
             <div className="button">
                 { user ?  <SignOutButton /> : <SignInButton /> }
             </div>

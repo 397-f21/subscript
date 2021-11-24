@@ -33,10 +33,10 @@ const DetailsBar = ({detailsTitle, detailsItem}) => {
 
 const RightCardStatic = () => {
     const totalSpendingMonthly = () => {
-        return 17.99 + 19.99 + 4.99 + 14.99 + 12.99
+        return 17.99 + 19.99 + 4.99 + 14.99/12 + 12.99
     }
     const totalSpendingAnnually = () => {
-        return Math.round(100*((17.99 + 19.99 + 4.99 + 14.99 + 12.99)*12))/100
+        return Math.round(100*((17.99 + 19.99 + 4.99 + 12.99)*12 + 14.99))/100
     }
 
     return (
@@ -88,18 +88,18 @@ const RightCardLogin = ({user}) => {
 
     let loginDataMockCopy = [];
     subscriptionsData != null ? subscriptionsData.map((e) => {
-        loginDataMockCopy.push({ title: e.name, value: e.type === 1 ? parseFloat(e.price): 12*parseFloat(e.price), color: generateColor()});
+        loginDataMockCopy.push({ title: e.name,
+                                 value: e.type === 1 ? parseFloat(e.price): 12 * parseFloat(e.price),
+                                 color: generateColor()
+                               });
     }) : loginDataMockCopy = [];
 
     const totalSpending = () => {
-        var monthsum = 0;
-        var annualsum = 0;
+        let annualSum = 0;
         loginDataMockCopy.forEach((value) => {
-            annualsum += value.value;
+            annualSum += value.value;
         })
-        monthsum = annualsum/12;
-        monthsum = Math.round(100*monthsum)/100;
-        return [annualsum, monthsum];
+        return annualSum;
     }
 
     return (
@@ -127,8 +127,8 @@ const RightCardLogin = ({user}) => {
             />
             <div className="Details">
                 <DetailsBar detailsTitle={"Items:" } detailsItem={loginDataMockCopy.length} />
-                <DetailsBar detailsTitle={"Total per month:"} detailsItem={"$ " + totalSpending()[1].toFixed(2)} />
-                <DetailsBar detailsTitle={"Total per year:"} detailsItem={"$ " + totalSpending()[0].toFixed(2)} />
+                <DetailsBar detailsTitle={"Total per month:"} detailsItem={"$ " + (totalSpending()/12).toFixed(2)} />
+                <DetailsBar detailsTitle={"Total per year:"} detailsItem={"$ " + totalSpending().toFixed(2)} />
             </div>
         </div>
     )

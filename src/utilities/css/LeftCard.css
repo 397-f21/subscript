@@ -32,7 +32,7 @@
     font-size: large;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding-top: 20px;
-    padding-left: 200px;
+    padding-left: 160px;
 }
 
 .subscribeImg {
@@ -57,6 +57,6 @@
 }
 
 .leftCardLogin{
-    padding-left: 200px;
+    padding-left: 160px;
     padding-top: 20px;
 }

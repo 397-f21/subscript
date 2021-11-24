@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import {LeftCard} from "./utilities/LeftCard";
 import {RightCard} from "./utilities/RightCard";
 import {Bottom} from "./utilities/bottomBar";
+import {Contributors} from "./utilities/Contributors";
+import {useUserState} from "./utilities/firebase";
 import "./App.css";
 
 const Title = {
@@ -30,6 +32,7 @@ export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) 
 };
 
 const App = () => {
+    const [user] = useUserState();
     const [subscriptions, setSubscriptions] = useState([]);
 
     return (
@@ -40,13 +43,16 @@ const App = () => {
                   descriptionLine2={Title.descriptionLine2}
             />
             <img
-              src="https://i.loli.net/2021/11/20/XMDjPehqRVQ9JK5.png"
+              src="https://i.loli.net/2021/11/25/AXR1if9qV4wrdmP.png"
               alt="backgroundImg"
               className="backgroundImg"
             />
             <div className="body-container">
               <LeftCard className="leftcard" subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
-              <RightCard className="rightcard"/>
+              <RightCard className="rightcard" />
+            </div>
+            <div className="contributorsInfo">
+                { user ? null : <Contributors />}
             </div>
             <div className="bottom">
               <Bottom />
