@@ -13,6 +13,10 @@ import TextField from "@mui/material/TextField";
 import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
+// import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+// import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import {Typography} from "@mui/material";
 import { useData, setData } from "./firebase";
 import netflix from "./assets/netflix.png";
@@ -29,7 +33,7 @@ const subscriptionIcons = {
   "paste": paste,
 }
 
-const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status, path }) => {
+const SubscriptionBar = ({ name, price, date, type, index, deleteSubscription, status, path }) => {
   const [isClicked, setIsClicked] = useState(false)
 
   const ListItemStyleStatic = {
@@ -65,6 +69,7 @@ const SubscriptionBar = ({ name, price, date, index, deleteSubscription, status,
         <ListItemText primary={name} style={{textAlign:"center"}}/>
         <ListItemText primary={"$ " + price} style={{textAlign:"center"}} />
         <ListItemText primary={typeof date === "string" ? date : date != null ? date.toDateString() : ""} style={{textAlign:"center"}} />
+        <ListItemText primary={type === 12 ? "Monthly": "Annually"} style={{textAlign:"center"}} />
         {isClicked && <Button onClick={() => deleteSubscription(index, path)}>Delete?</Button>}
       </ListItemButton>
     </ListItem>
@@ -81,7 +86,7 @@ const SubscriptionList = ({ subscriptions, path}) => {
   return (
     <List>
       {subscriptions.map((e, index) => (
-        <SubscriptionBar name={e.name} price={e.price} date={e.date} index={index} deleteSubscription={deleteSubscription} status={0} path={path}/>
+        <SubscriptionBar name={e.name} price={e.price} date={e.date} type={e.type} index={index} deleteSubscription={deleteSubscription} status={0} path={path}/>
       ))}
     </List>
   );
@@ -92,6 +97,8 @@ const FormModal = ({ open, handleClose, closeModal, user }) => {
   const [price, setPrice] = useState('');
   const today = new Date();
   const [date, setDate] = useState(today);
+  const [type, setType] = useState("");
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -112,8 +119,8 @@ const FormModal = ({ open, handleClose, closeModal, user }) => {
     marginBottom: "15px",
   };
 
-  const handleCloseModal = (name, price, date, user) => {
-    handleClose(name, price, date, "/" + reformatPath(user.email) + "/subscriptions");
+  const handleCloseModal = (name, price, date, type, user) => {
+    handleClose(name, price, date, type, "/" + reformatPath(user.email) + "/subscriptions");
 
     // console.log(currentSubscriptions);
     // var copySubcriptions = currentSubscriptions;
@@ -162,10 +169,21 @@ const FormModal = ({ open, handleClose, closeModal, user }) => {
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
+        <Select
+          sx={inputStyle}
+          label="Type"
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={type}
+          onChange={(newType) => setType(newType.target.value)}
+        >
+          <MenuItem value={12}>Monthly</MenuItem>
+          <MenuItem value={1}>Annually</MenuItem>
+        </Select>
         <Button
           style={{marginTop: "20px"}}
           variant="contained"
-          onClick={() => handleCloseModal(name, price, date, user)}
+          onClick={() => handleCloseModal(name, price, date, type, user)}
         >
           Submit Subscription
         </Button>
@@ -191,11 +209,11 @@ const LeftCardStatic = () => {
                  fontFamily: "Gill Sans"}}> Examples for subscript </p>
       <div className="descriptions">
         <List sx={style}>
-          <SubscriptionBar name={"Netflix"} price={17.99} date={new Date()} index={0} deleteSubscription={()=>{}} status={1} />
-          <SubscriptionBar name={"Adobe"} price={19.99} date={new Date()} index={1} deleteSubscription={()=>{}} status={1} />
-          <SubscriptionBar name={"Spotify"} price={4.99} date={new Date()} index={2} deleteSubscription={()=>{}} status={1} />
-          <SubscriptionBar name={"Paste"} price={14.99} date={new Date()} index={3} deleteSubscription={()=>{}} status={1} />
-          <SubscriptionBar name={"Prime"} price={12.99} date={new Date()} index={4} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Netflix"} price={17.99} date={new Date()} type={12} index={0} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Adobe"} price={19.99} date={new Date()} type={12} index={1} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Spotify"} price={4.99} date={new Date()} type={12} index={2} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Paste"} price={14.99} date={new Date()} type={12} index={3} deleteSubscription={()=>{}} status={1} />
+          <SubscriptionBar name={"Prime"} price={12.99} date={new Date()} type={12} index={4} deleteSubscription={()=>{}} status={1} />
         </List>
       </div>
     </div>
@@ -252,14 +270,14 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
     setOpen(false);
   };
 
-  const handleClose = (name, price, date, path) => {
-    console.log(name, price, date);
+  const handleClose = (name, price, date, type, path) => {
+    console.log(name, price, date, type);
     let subsCopy = subscriptions;
     if (subsCopy == null){
       subsCopy = [];
     }
     if (name && price && date) {
-      subsCopy.push({ name: name, price: price, date: date.toDateString() });
+      subsCopy.push({ name: name, price: price, date: date.toDateString(), type: type });
       console.log(subsCopy);
       setData(path, subsCopy);
       setOpen(false);

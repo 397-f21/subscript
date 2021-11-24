@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { useUserState } from "./firebase";
 import "./css/RightCard.css"
 import { PieChart } from 'react-minimal-pie-chart';
@@ -32,8 +32,11 @@ const DetailsBar = ({detailsTitle, detailsItem}) => {
 }
 
 const RightCardStatic = () => {
-    const totalSpending = () => {
-        return 17.99 + 19.99 + 4.99 + 14.99 + 12.99;
+    const totalSpendingMonthly = () => {
+        return 17.99 + 19.99 + 4.99 + 14.99 + 12.99
+    }
+    const totalSpendingAnnually = () => {
+        return Math.round(100*((17.99 + 19.99 + 4.99 + 14.99 + 12.99)*12))/100
     }
 
     return (
@@ -61,8 +64,8 @@ const RightCardStatic = () => {
             />
             <div className="Details">
                 <DetailsBar detailsTitle={"Items:" } detailsItem={5} />
-                <DetailsBar detailsTitle={"Total monthly:"} detailsItem={"$ " + totalSpending()} />
-                <DetailsBar detailsTitle={"Total annually:"} detailsItem={"$ " + (12 * totalSpending()).toFixed(2)} />
+                <DetailsBar detailsTitle={"Total per month:"} detailsItem={"$ " + totalSpendingMonthly().toFixed(2)} />
+                <DetailsBar detailsTitle={"Total per year:"} detailsItem={"$ " + totalSpendingAnnually().toFixed(2)} />
             </div>
         </div>
     )
@@ -85,15 +88,18 @@ const RightCardLogin = ({user}) => {
 
     let loginDataMockCopy = [];
     subscriptionsData != null ? subscriptionsData.map((e) => {
-        loginDataMockCopy.push({ title: e.name, value: parseFloat(e.price), color: generateColor()});
+        loginDataMockCopy.push({ title: e.name, value: e.type === 1 ? parseFloat(e.price): 12*parseFloat(e.price), color: generateColor()});
     }) : loginDataMockCopy = [];
 
     const totalSpending = () => {
-        var sum = 0;
+        var monthsum = 0;
+        var annualsum = 0;
         loginDataMockCopy.forEach((value) => {
-            sum += value.value;
+            annualsum += value.value;
         })
-        return sum;
+        monthsum = annualsum/12;
+        monthsum = Math.round(100*monthsum)/100;
+        return [annualsum, monthsum];
     }
 
     return (
@@ -121,8 +127,8 @@ const RightCardLogin = ({user}) => {
             />
             <div className="Details">
                 <DetailsBar detailsTitle={"Items:" } detailsItem={loginDataMockCopy.length} />
-                <DetailsBar detailsTitle={"Total monthly:"} detailsItem={"$ " + totalSpending()} />
-                <DetailsBar detailsTitle={"Total annually:"} detailsItem={"$ " + (12 * totalSpending()).toFixed(2)} />
+                <DetailsBar detailsTitle={"Total per month:"} detailsItem={"$ " + totalSpending()[1].toFixed(2)} />
+                <DetailsBar detailsTitle={"Total per year:"} detailsItem={"$ " + totalSpending()[0].toFixed(2)} />
             </div>
         </div>
     )

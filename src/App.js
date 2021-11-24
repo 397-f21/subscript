@@ -7,8 +7,8 @@ import "./App.css";
 const Title = {
     title: "subscript",
     subtitle: "manage your subscriptions today!",
-    descriptionLine1: "subscript will track your subscriptions so you don't have to!",
-    descriptionLine2: "keep track of which subscriptions you use & cancel the ones you don't"
+    descriptionLine1: "subscript will track your subscriptions so you don't have to...",
+    descriptionLine2: "sign in today!"
 };
 
 export const Banner = ({ title, subtitle, descriptionLine1, descriptionLine2 }) => {
