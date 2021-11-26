@@ -5,6 +5,9 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Divider from '@mui/material/Divider';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import ListItemText from "@mui/material/ListItemText";
 import {FormHelperText} from "@mui/material";
 import InputLabel from '@mui/material/InputLabel';
@@ -92,7 +95,7 @@ const SubscriptionList = ({ subscriptions, path}) => {
   );
 };
 
-const FormModal = ({ open, handleClose, closeModal, user }) => {
+const FormModal = ({ open, handleClose, closeModal, user, openSnackbar, setOpenSnackbar}) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState('');
   const today = new Date();
@@ -131,8 +134,9 @@ const FormModal = ({ open, handleClose, closeModal, user }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography sx={{fontSize:18, marginBottom:"30px"}}> Please Enter Subscription Data: </Typography>
-        <InputLabel id="name-label" sx={{fontSize:14}}>Name of subscription</InputLabel>
+        <Typography sx={{fontSize:18, marginBottom:"20px"}}> Please Enter Subscription Data: </Typography>
+        <Divider />
+        <InputLabel id="name-label" sx={{fontSize:14, marginTop:"15px"}}>Name of subscription</InputLabel>
         <TextField
           sx={inputStyle}
           labelId="name-label"
@@ -181,7 +185,10 @@ const FormModal = ({ open, handleClose, closeModal, user }) => {
         <Button
           style={{width:"50%", margin:"0 auto", marginTop:"30px"}}
           variant="contained"
-          onClick={() => handleCloseModal(name, price, date, type, user)}>
+          onClick={() => {
+            setOpenSnackbar(true);
+            handleCloseModal(name, price, date, type, user)
+          }}>
           Submit Subscription
         </Button>
       </Box>
@@ -217,6 +224,7 @@ const LeftCardStatic = () => {
 const reformatPath = (path) => path.replace(/[^A-Z0-9]+/ig, "_");
 
 const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open, user }) => {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [subscriptionsData, loading, error] = useData("/" + reformatPath(user.email) + "/subscriptions");
   if (error) return <h2>{error}</h2>;
   if (loading) return <h2>Loading the subscriptions...</h2>;
@@ -225,6 +233,17 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
   const style = {
     marginLeft: -22,
   }
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   return (
       <div className="leftCardLoginPage">
@@ -246,7 +265,17 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
               closeModal={closeModel}
               subscriptions={subscriptions != null ? subscriptions : []}
               user={user}
+              openSnackbar={openSnackbar}
+              setOpenSnackbar={setOpenSnackbar}
           />
+          <Snackbar open={openSnackbar}
+                    autoHideDuration={4000}
+                    anchorOrigin={{horizontal:"left", vertical:"top"}}
+                    onClose={() => handleSnackbarClose()}>
+            <Alert onClose={() => handleSnackbarClose()} severity="success" sx={{ width: '100%' }}>
+              Add subscription successfully!
+            </Alert>
+          </Snackbar>
         </div>
       </div>
   );

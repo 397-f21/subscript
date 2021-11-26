@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import Divider from '@mui/material/Divider';
 import {LeftCard} from "./utilities/LeftCard";
 import {RightCard} from "./utilities/RightCard";
 import {Bottom} from "./utilities/bottomBar";
@@ -49,6 +50,7 @@ const App = () => {
             />
             <div className="body-container">
               <LeftCard className="leftcard" subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
+              <Divider orientation="vertical" flexItem="True" variant="middle"/>
               <RightCard className="rightcard" />
             </div>
             <div className="contributorsInfo">
