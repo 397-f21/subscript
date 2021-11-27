@@ -63,12 +63,13 @@ const SubscriptionBar = ({ name, price, date, type, index, deleteSubscription, s
     if(isClicked) setTimeout(()=>{setIsClicked(!isClicked)}, 500);
   }
 
-
   return (
     <ListItem disablePadding sx={() => {return status === 1 ? ListItemStyleStatic : ListItemStyleLogin}}>
       <ListItemButton onClick={clicked}
                       onMouseLeave={mouseLeave}>
-        {subscriptionIcons[name.toLowerCase()] != null ? <img src={subscriptionIcons[name.toLowerCase()]} style={{height:"30px", width: "30px"}}/> : <ChevronRightIcon />}
+        {subscriptionIcons[name.toLowerCase()] != null ? <img alt="subscriptionIcons"
+                                                              src={subscriptionIcons[name.toLowerCase()]}
+                                                              style={{height:"30px", width: "30px"}}/> : <ChevronRightIcon />}
         <ListItemText primary={name} style={{textAlign:"center"}}/>
         <ListItemText primary={"$ " + price} style={{textAlign:"center"}} />
         <ListItemText primary={typeof date === "string" ? date : date != null ? date.toDateString() : ""} style={{textAlign:"center"}} />
@@ -79,17 +80,25 @@ const SubscriptionBar = ({ name, price, date, type, index, deleteSubscription, s
   );
 };
 
-const SubscriptionList = ({ subscriptions, path}) => {
+const SubscriptionList = ({ subscriptions, path, setDeleteSnackbar}) => {
   const deleteSubscription = (index) => {
     let subsCopy = subscriptions;
     subsCopy.splice(index,1);
     console.log(subsCopy);
     setData(path, subsCopy);
+    setDeleteSnackbar(true);
   }
   return (
     <List>
       {subscriptions.map((e, index) => (
-        <SubscriptionBar name={e.name} price={e.price} date={e.date} type={e.type} index={index} deleteSubscription={deleteSubscription} status={0} path={path}/>
+        <SubscriptionBar name={e.name}
+                         price={e.price}
+                         date={e.date}
+                         type={e.type}
+                         index={index}
+                         deleteSubscription={deleteSubscription}
+                         status={0}
+                         path={path} />
       ))}
     </List>
   );
@@ -223,7 +232,7 @@ const LeftCardStatic = () => {
 
 const reformatPath = (path) => path.replace(/[^A-Z0-9]+/ig, "_");
 
-const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open, user }) => {
+const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClose, closeModel, open, user, deleteSnackbar, setDeleteSnackbar }) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [subscriptionsData, loading, error] = useData("/" + reformatPath(user.email) + "/subscriptions");
   if (error) return <h2>{error}</h2>;
@@ -243,6 +252,7 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
       return;
     }
     setOpenSnackbar(false);
+    setDeleteSnackbar(false);
   };
 
   return (
@@ -254,7 +264,7 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
           fontFamily: "Gill Sans"}}> Manage your subscriptions ! </p>
         <div className="leftCardLogin">
           {subscriptions != null && subscriptions.length > 0 ? (
-              <SubscriptionList subscriptions={subscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"}/>
+              <SubscriptionList subscriptions={subscriptions} path={"/" + reformatPath(user.email) + "/subscriptions"} setDeleteSnackbar={setDeleteSnackbar}/>
           ) : <h2>You haven't added any subscriptions yet!</h2>}
           <Button sx={style} variant="contained" onClick={handleOpen}>
             Add Subscription
@@ -276,6 +286,14 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
               Add subscription successfully!
             </Alert>
           </Snackbar>
+          <Snackbar open={deleteSnackbar}
+                    autoHideDuration={4000}
+                    anchorOrigin={{horizontal:"left", vertical:"top"}}
+                    onClose={() => handleSnackbarClose()}>
+            <Alert onClose={() => handleSnackbarClose()} severity="success" sx={{ width: '100%' }}>
+              Delete subscription successfully!
+            </Alert>
+          </Snackbar>
         </div>
       </div>
   );
@@ -285,6 +303,7 @@ const LeftCardLogin = ({ subscriptions, setSubscriptions, handleOpen, handleClos
 export const LeftCard = ({ subscriptions, setSubscriptions }) => {
   const [user] = useUserState();
   const [open, setOpen] = useState(false);
+  const [deleteSnackbar, setDeleteSnackbar] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -318,7 +337,9 @@ export const LeftCard = ({ subscriptions, setSubscriptions }) => {
                              handleClose={handleClose}
                              closeModel={closeModel}
                              open={open}
-                             user={user} /> : <LeftCardStatic />}
+                             user={user}
+                             deleteSnackbar={deleteSnackbar}
+                             setDeleteSnackbar={setDeleteSnackbar}/> : <LeftCardStatic />}
     </div>
   );
 };
