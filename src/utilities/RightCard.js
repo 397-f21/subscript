@@ -92,6 +92,7 @@ const RightCardLogin = ({user}) => {
                                  value: e.type === 1 ? parseFloat(e.price): 12 * parseFloat(e.price),
                                  color: generateColor()
                                });
+        return;
     }) : loginDataMockCopy = [];
 
     const totalSpending = () => {
